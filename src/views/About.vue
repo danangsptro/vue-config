@@ -64,9 +64,8 @@
     <!-- <Pagination class="py-10" :pagination="pagination" /> -->
     <br />
     <br />
-
+<!-- 
     <div class="flex flex-col items-center">
-      <!-- Help text -->
       <span class="text-sm text-gray-700 dark:text-gray-400">
         Showing
         <span class="font-semibold text-gray-900 dark:text-white">{{
@@ -82,7 +81,6 @@
         }}</span>
         Entries
       </span>
-      <!-- Buttons -->
       <div class="inline-flex mt-2 xs:mt-0">
         <button
           class="py-2 px-4 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -96,7 +94,7 @@
           Next
         </button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -135,7 +133,7 @@ export default {
       const { data } = await axios.get(`${process.env.VUE_APP_SERVICE}?${'offset'}=${this.offset}&${`limit`}=${this.limit}`)
       setTimeout(() =>{
         this.loading = false
-      },1500)
+      },2000)
       this.previe = data.preview
       this.count = data.count
       data.results.map(element => {
@@ -156,6 +154,7 @@ export default {
 
     next(){
       this.offset = this.data[9].url * 1
+      this.loading = true
       this.pokemonGet()
     },
 
