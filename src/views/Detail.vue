@@ -1,13 +1,19 @@
 <template>
   <div class="text-center py-5">
     <Breadcrumb class="mb-10" :list-data="detail" />
-
+    <!-- Loading -->
+    <div
+      class=" flex justify-center items-center spinner-border"
+      v-if="loading"
+    >
+      <div
+        class="animate-spin rounded-full h-32 w-32 border-b-8 border-green-900"
+      ></div>
+    </div>
+    <!-- Close Loading -->
     <div class="grid gap-12 grid-cols-1 grid-rows-1">
       <div class="flex justify-center">
-        <img
-          src="../assets/img/logopokemon.png"
-          width="150px"
-        />
+        <img src="../assets/img/logopokemon.png" width="150px" />
       </div>
       <div class="flex justify-center">
         <br />
@@ -66,7 +72,8 @@ export default {
     data(){
         return{
             data: [],
-            detail: 'detail'
+            detail: 'detail',
+            loading: false
         }
     },
 
@@ -79,9 +86,27 @@ export default {
             const q =  window.location.href;
             const url = q.split('/')
             const id = url['5']
+            this.loading = true
             const {data} = await axios.get(`${process.env.VUE_APP_SERVICE}${id}`);
+            setTimeout(() =>{
+              this.loading = false
+            },1500)
             this.data = data
         }
     }
 }
 </script>
+
+<style scoped>
+.spinner-border {
+  display: flex;
+  background: rgb(0, 0, 0, 0.6);
+  position: fixed;
+  inset: 0px;
+  transition: 50deg;
+  text-align: center;
+  align-items: center;
+  z-index: 100;
+  justify-content: center;
+}
+</style>
