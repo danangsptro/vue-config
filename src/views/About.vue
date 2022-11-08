@@ -16,7 +16,10 @@
     </div>
 
     <!-- Loading -->
-    <div class=" flex justify-center items-center spinner-border"  v-if="loading">
+    <div
+      class=" flex justify-center items-center spinner-border"
+      v-if="loading"
+    >
       <div
         class="animate-spin rounded-full h-32 w-32 border-b-8 border-green-900"
       ></div>
@@ -64,16 +67,16 @@
     <!-- <Pagination class="py-10" :pagination="pagination" /> -->
     <br />
     <br />
-<!-- 
+
     <div class="flex flex-col items-center">
       <span class="text-sm text-gray-700 dark:text-gray-400">
         Showing
         <span class="font-semibold text-gray-900 dark:text-white">{{
-          data[0].url
+          first
         }}</span>
         to
         <span class="font-semibold text-gray-900 dark:text-white">{{
-          data[9].url
+          end
         }}</span>
         of
         <span class="font-semibold text-gray-900 dark:text-white">{{
@@ -94,7 +97,7 @@
           Next
         </button>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -118,8 +121,9 @@ export default {
       search: '',
       count: 0,
       previe: null,
-      loading: false
-
+      loading: false,
+      first: '',
+      end: ''
     }
   },
 
@@ -141,21 +145,26 @@ export default {
         const split = q.split('/')
         element.url = split[6]
       })
+      this.first = data.results[0].url
+      this.end = data.results[9].url
       this.data = data.results
       this.pagination = data.next
       if (this.search) {
         this.data = data.results.filter(people =>
           people.name.toLowerCase().includes(this.search.toLowerCase())
         );
+        console.log(this.data, 'data test')
       } else {
         this.people = data.results;
       }
     },
 
     next(){
-      this.offset = this.data[9].url * 1
       this.loading = true
+      this.offset = this.data[9].url * 1
       this.pokemonGet()
+      this.loading = false
+
     },
 
     // preview(){
